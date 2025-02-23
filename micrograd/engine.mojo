@@ -19,12 +19,14 @@ struct Value:
         self._op = _op
 
     fn __copyinit__(out self, existing: Self):
+        print("Copy called:", existing)
         self.data = existing.data
         self.grad = existing.grad
         self._prev = existing._prev
         self._op = existing._op
 
     fn __moveinit__(out self, owned existing: Self):
+        print("Move called:", existing)
         self.data = existing.data
         self.grad = existing.grad
         self._prev = existing._prev^

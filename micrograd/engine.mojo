@@ -32,6 +32,13 @@ struct Value:
         res = self.data + other.data
         return Value(res, List(self, other), String("+"))
 
+    fn backward(mut self):
+        self.grad = 1.0
+
+        for child in self._prev:
+            if self._op == "+":
+                child[].grad += self.grad
+
     fn write_to[W: Writer](self, mut writer: W):
         var string = "Value"
         writer.write_bytes(string.as_bytes())
@@ -49,8 +56,9 @@ fn main():
     var a = Value(-4.0)
     var b = Value(2.0)
     var c = a + b
+    c.backward()
 
     print("a:", a)
     print("b:", b)
     print("c:", c)
-    print_list("c._prev:", c._prev)
+    # print_list("c._prev:", c._prev)

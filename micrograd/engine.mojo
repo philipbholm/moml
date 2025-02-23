@@ -1,3 +1,5 @@
+from memory import UnsafePointer
+
 struct Value:
     var data: Float64
     var grad: Float64
@@ -37,7 +39,8 @@ struct Value:
 
         for child in self._prev:
             if self._op == "+":
-                child[].grad += self.grad
+                ptr = UnsafePointer.address_of(child[].grad)
+                ptr.store(1.0)
 
     fn write_to[W: Writer](self, mut writer: W):
         var string = "Value"
